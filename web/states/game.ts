@@ -59,7 +59,7 @@ export class GameState extends Phaser.State {
     this.shadowTexture.context.fillRect(0, 0, this.game.width, this.game.height);
 
     const radiusBase = this.game.height > this.game.width ? this.game.height : this.game.width;
-    const radius = radiusBase * .75 + Math.random() * 100;
+    const radius = radiusBase * 1.1 + Math.random() * 100;
     const lightX = this.lighthouse.centerX;
     const lightY = this.lighthouse.top;
 
@@ -68,7 +68,7 @@ export class GameState extends Phaser.State {
       .createRadialGradient(
         lightX,
         lightY,
-        .25 * radius,
+        .2 * radius,
         lightX,
         lightY,
         radius,
