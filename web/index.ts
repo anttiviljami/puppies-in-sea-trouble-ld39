@@ -5,6 +5,8 @@ import { SplashState } from './states/splash';
 import { GameState } from './states/game';
 
 class Game extends Phaser.Game {
+  public music = Phaser.Sound;
+
   constructor() {
     super('100%', '100%', Phaser.AUTO, 'content', null);
 

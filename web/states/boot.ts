@@ -6,7 +6,7 @@ export class BootState extends Phaser.State {
   private fontsReady: boolean;
 
   public init() {
-    this.stage.backgroundColor = '#00344b';
+    this.stage.backgroundColor = '#02344d';
     this.fontsReady = false;
     this.fontsLoaded = this.fontsLoaded.bind(this);
   }
@@ -14,22 +14,19 @@ export class BootState extends Phaser.State {
   public preload() {
     WebFont.load({
       google: {
-        families: ['Nunito'],
+        families: ['Indie Flower'],
       },
       active: this.fontsLoaded,
     });
 
     const { centerX, centerY } = this.world;
 
-    const text = this.add.text(centerX, centerY, 'loading fonts', {
-      font: '16px Arial',
-      fill: '#dddddd',
+    const text = this.add.text(centerX, centerY, 'Loading...', {
+      font: '18px sans-serif',
+      fill: '#fff',
       align: 'center',
     });
     text.anchor.setTo(0.5, 0.5);
-
-    this.load.image('loaderBg', './assets/images/loader-bg.png');
-    this.load.image('loaderBar', './assets/images/loader-bar.png');
   }
 
   public render() {
