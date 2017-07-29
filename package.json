@@ -30,7 +30,7 @@
     "start": "node dist/src/index.js",
     "dev": "npm run watch-build",
     "build": "concurrently 'tsc --p server/tsconfig.json' 'webpack web/'",
-    "watch-build": "concurrently 'tsc -w --p server/tsconfig.json' 'webpack --watch web/' 'nodemon -L --watch dist/ --delay 2 dist/server/index.js'",
+    "watch-build": "concurrently 'tsc -w --p server/tsconfig.json' 'webpack --watch web/' 'nodemon -L --watch dist/server/ dist/server/index.js'",
     "lint": "concurrently 'tslint --format prose -c server/tslint.json --exclude ''**/node_modules/**'' --project server' 'tslint --format prose -c web/tslint.json --exclude ''**/node_modules/**'' --project web'"
   },
   "devDependencies": {
