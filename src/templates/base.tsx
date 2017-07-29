@@ -32,9 +32,6 @@ const styles = `
 const script = `
   (function () {
     var socket = io({transports: ['websocket']});
-    window.emit = function(msg) {
-      socket.emit('game event', msg);
-    }
     window.charge = function() {
       socket.emit('charge');
     }

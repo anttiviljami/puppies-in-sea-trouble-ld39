@@ -8,6 +8,12 @@ export async function getState(req, res) {
     return res.json(state);
   } catch (e) {
     logger.error(e);
-    return {};
+    return res.json({});
   }
+}
+
+export async function resetGame(req, res) {
+  await game.init();
+  logger.info('GAME RESET');
+  return res.json({ success: 1 });
 }

@@ -5,7 +5,8 @@ import { bindHandler } from './util/sock';
 import frontend from './templates/base';
 import * as gameHttp from './http/game-http';
 import * as gameSock from './sock/game-sock';
-import * as chatSock from './sock/chat-sock';
+
+import config from './config';
 
 let io;
 
@@ -20,6 +21,10 @@ function configureHttp(app) {
   // get full game state
   app.get('/api/getState', gameHttp.getState);
 
+  // reset the game
+  if ( config.NODE_ENV !== 'production' ) {
+    app.get('/api/reset', gameHttp.resetGame);
+  }
   return app;
 }
 
@@ -30,7 +35,6 @@ function configureSocket(ioInstance) {
     // client connected
     logger.info('connected');
 
-    socket.on('chat message', bindHandler(io, chatSock.message));
     socket.on('charge', bindHandler(io, gameSock.charge));
   });
 }

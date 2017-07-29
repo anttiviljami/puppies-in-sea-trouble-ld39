@@ -17,7 +17,7 @@ export async function getBalance({ cache } = { cache: true }) {
   if ( web3.isConnected() ) {
     const getBalanceAsync = promisify(web3.eth.getBalance);
     balance = await getBalanceAsync(config.ETH_ADDRESS);
-    logger.info('ETH account balance: ', balance.toString(10));
+    logger.silly('ETH account balance: ', balance.toString(10));
   }
   return balance;
 }

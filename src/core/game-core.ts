@@ -1,8 +1,14 @@
 import { io } from '../routes';
 import * as eth from './eth-core';
 
-let lightHouseFuel = 20;
-let fuelUsed = 0;
+let lightHouseFuel;
+let fuelUsed;
+
+export async function init() {
+  lightHouseFuel = 20;
+  fuelUsed = 0;
+  return true;
+}
 
 async function reduceFuel() {
   if ((lightHouseFuel - 1) <= 0) {
@@ -49,6 +55,7 @@ export async function getState() {
 }
 
 // main game loop
-export function start() {
+export async function start() {
+  await init();
   return setInterval(tick, 1000);
 }
