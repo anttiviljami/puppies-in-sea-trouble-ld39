@@ -15,4 +15,4 @@ const io = IO.listen(server);
 
 routes.configureHttp(app);
 routes.configureSocket(io);
-game.start(io);
+game.start();

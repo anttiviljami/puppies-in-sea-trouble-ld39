@@ -29,6 +29,20 @@ services:
       - postgres
       - redis
 
+  # ci container for travis
+  ci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: herokunode
+    command: 'bash -c ''source .env && ./tools/ci.sh'''
+    working_dir: /app/user
+    volumes:
+      - '.:/app/user'
+    links:
+      - postgres
+      - redis
+
   # deps
   postgres:
     image: postgres:9.6

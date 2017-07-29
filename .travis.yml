@@ -1,0 +1,23 @@
+---
+sudo: required
+services:
+  - docker
+language: python
+python:
+  - 2.7
+env:
+  - NODE_VERSION=8
+before_install:
+  - docker-compose -v
+  - docker -v
+install:
+before_script:
+script:
+  - sudo -E docker-compose -f docker-compose.yml run ci
+after_script:
+  - docker ps -a
+  - docker-compose logs
+notifications:
+  email:
+    - viljami@avoinsorsa.fi
+

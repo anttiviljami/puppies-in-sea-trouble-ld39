@@ -1,4 +1,7 @@
+import * as path from 'path';
 import * as logger from 'winston';
+import * as express from 'express';
+import * as morgan from 'morgan';
 
 import { bindHandler } from './util/sock';
 
@@ -11,10 +14,13 @@ import config from './config';
 let io;
 
 function configureHttp(app) {
+  app.use(morgan('combined'));
+
+  app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+
   // main game
   app.get('/', (req, res) => {
     // serve template
-    // @TODO: figure out a nice way to render static frontend
     res.send(frontend);
   });
 

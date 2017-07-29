@@ -39,7 +39,6 @@ export async function charge() {
     lightHouseFuel += 5;
     fuelUsed += 5;
   }
-  lightHouseFuel = 20;
   const state = await getState();
   return true;
 }

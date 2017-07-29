@@ -1,15 +1,16 @@
 import * as logger from 'winston';
 import { promisify } from 'bluebird';
 
+import BigNumber from 'bignumber.js';
 import * as Web3 from '../util/web3';
 
 import config from '../config';
 
-let balance = "";
+let balance = new BigNumber(-1);
 
 export async function getBalance({ cache } = { cache: true }) {
   // cache
-  if (balance === "" && !cache) {
+  if (balance.toNumber() === -1 && !cache) {
     return balance;
   }
 

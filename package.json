@@ -10,24 +10,31 @@
   },
   "dependencies": {
     "@types/node": "^8.0.14",
+    "bignumber.js": "^4.0.2",
     "bluebird": "^3.5.0",
     "concurrently": "^3.5.0",
     "express": "^4.15.3",
+    "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
+    "phaser-ce": "^2.8.3",
     "socket.io": "^2.0.3",
+    "ts-loader": "^2.3.2",
     "typed-html": "^0.3.3",
     "typescript": "^2.4.1",
     "web3": "^0.20.1",
+    "webfontloader": "^1.6.28",
+    "webpack": "^3.4.1",
     "winston": "^2.3.1"
   },
   "scripts": {
     "start": "node dist/src/index.js",
-    "dev": "concurrently 'tsc -w' 'nodemon -L --watch dist/src --delay 2 dist/src/index.js'",
-    "build": "tsc",
-    "watch-build": "tsc -w",
-    "lint": "tslint --format prose --project ."
+    "dev": "npm run watch-build",
+    "build": "concurrently 'tsc --p server/tsconfig.json' 'webpack web/'",
+    "watch-build": "concurrently 'tsc -w --p server/tsconfig.json' 'webpack --watch web/' 'nodemon -L --watch dist/ --delay 2 dist/server/index.js'",
+    "lint": "concurrently 'tslint --format prose -c server/tslint.json --exclude ''**/node_modules/**'' --project server' 'tslint --format prose -c web/tslint.json --exclude ''**/node_modules/**'' --project web'"
   },
   "devDependencies": {
+    "david": "^11.0.0",
     "tslint": "^5.5.0",
     "tslint-react": "^3.1.0"
   }

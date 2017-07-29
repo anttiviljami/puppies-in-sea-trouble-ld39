@@ -22,8 +22,9 @@ const base = (
       <style>{styles}</style>
     </head>
     <body>
-      <script src="https://cdn.socket.io/socket.io-1.2.0.js" />
       <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.8.3" />
+      <script src="//cdn.socket.io/socket.io-1.2.0.js" />
+      <script src="/static/bundle.js" />
       <script>{script}</script>
     </body>
   </html>

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "../dist/web",
+    "rootDir": ".",
+    "sourceMap": true,
+    "removeComments": false,
+    "noImplicitAny": false
+  },
+  "include": [
+    "./**/*"
+  ]
+}
