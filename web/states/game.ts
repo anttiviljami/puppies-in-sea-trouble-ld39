@@ -6,7 +6,9 @@ export class GameState extends Phaser.State {
   private mushroom: Mushroom;
 
   // init () {}
-  // preload () {}
+  public preload() {
+    this.game.load.image('button', 'assets/images/mushroom.png');
+  }
 
   public create() {
     const banner = this.add.text(this.game.world.centerX, this.game.height - 30, 'Puppies in Sea Trouble', {});
@@ -22,8 +24,11 @@ export class GameState extends Phaser.State {
       asset: 'mushroom',
     });
 
+    const button = this.game.add.button(this.game.world.centerX, this.game.height - 100, 'button', this.click, this, 2, 1, 0);
+
     // set the sprite width to 30% of the game width
     setResponsiveWidth(this.mushroom, 30, this.game.world);
+    setResponsiveWidth(button, 30, this.game.world);
     this.game.add.existing(this.mushroom);
   }
 
@@ -31,5 +36,9 @@ export class GameState extends Phaser.State {
     if (window['__DEV__']) {
       this.game.debug.spriteInfo(this.mushroom, 32, 32);
     }
+  }
+
+  private click() {
+    console.log('CLICK');
   }
 }
