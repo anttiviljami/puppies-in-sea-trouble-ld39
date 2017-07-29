@@ -9,10 +9,10 @@ export class GameState extends Phaser.State {
   // preload () {}
 
   public create() {
-    const banner = this.add.text(this.game.world.centerX, this.game.height - 30, 'Phaser + ES6 + Webpack', {});
+    const banner = this.add.text(this.game.world.centerX, this.game.height - 30, 'Puppies in Sea Trouble', {});
     banner.font = 'Nunito';
-    banner.fontSize = 40;
-    banner.fill = '#77BFA3';
+    banner.fontSize = 35;
+    banner.fill = '#111';
     banner.anchor.setTo(0.5);
 
     this.mushroom = new Mushroom({

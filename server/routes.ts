@@ -17,6 +17,7 @@ function configureHttp(app) {
   app.use(morgan('combined'));
 
   app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+  app.use('/assets', express.static(path.join(__dirname, '..', '..', 'assets')));
 
   // main game
   app.get('/', (req, res) => {
