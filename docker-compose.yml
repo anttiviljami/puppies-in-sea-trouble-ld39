@@ -1,0 +1,51 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: herokunode
+    command: 'bash -c ''source .env && npm run dev'''
+    working_dir: /app/user
+    ports:
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - '.:/app/user'
+    links:
+      - postgres
+      - redis
+
+  # heroku shell
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: herokunode
+    command: 'bash -c ''source .env && bash'''
+    working_dir: /app/user
+    volumes:
+      - '.:/app/user'
+    links:
+      - postgres
+      - redis
+
+  # deps
+  postgres:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:3.2
+    ports:
+      - '127.0.0.1:6379:6379'
+
+volumes:
+  pgdata: {}
+

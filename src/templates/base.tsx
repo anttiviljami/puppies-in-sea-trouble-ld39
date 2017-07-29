@@ -2,6 +2,7 @@
 import * as elements from 'typed-html';
 
 const styles = `
+  body { background: #111; }
 `;
 
 const script = `
