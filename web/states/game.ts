@@ -115,7 +115,7 @@ export class GameState extends Phaser.State {
     this.lighthouse.frame = 0;
     if (lightHouseFuel > 10) {
       const keeperPlural = players === 1 ? 'keeper' : 'keepers';
-      this.comment.text = `${savedPuppies} saved puppies, ${players} lighthouse ${keeperPlural}`;
+      this.comment.text = `${savedPuppies} saved puppies, ${players} active lighthouse ${keeperPlural}`;
     }
     if (lightHouseFuel === 0) {
       this.lighthouse.frame = 1;
