@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser-ce';
+import * as seedrandom from 'seedrandom';
 
 export class Doggo extends Phaser.Sprite {
   public spawned;
@@ -9,18 +10,19 @@ export class Doggo extends Phaser.Sprite {
   private targetX;
   private targetY;
 
-  constructor({ game, asset, variant, spawned, targetX, targetY }) {
+  constructor({ game, asset, variant, spawned, targetX, targetY, id }) {
+    const rng = seedrandom(id);
     // random starting point
-    const corner = Math.floor(Math.random() * 2); // 0 = top 1 = right
+    const corner = Math.floor(rng() * 2); // 0 = top 1 = right
     let startX;
     let startY;
     if (corner === 0) {
-      startX = game.width - (Math.random() * game.world.width / 2);
+      startX = game.width - (rng() * game.world.width / 2);
       startY = -100;
     }
     if (corner === 1) {
       startX = game.width + 100;
-      startY = Math.random() * (game.world.height / 2);
+      startY = rng() * (game.world.height / 2);
     }
 
     super(game, startX, startY, asset);

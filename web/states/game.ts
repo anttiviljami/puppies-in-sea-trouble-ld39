@@ -43,6 +43,8 @@ export class GameState extends Phaser.State {
       this.handleGameEvent.bind(this)(event);
     });
 
+    this.socket.on('charge', () => this.charge);
+
     this.music = this.game.add.audio('yar', 1, true);
     this.music.play();
 
@@ -89,7 +91,7 @@ export class GameState extends Phaser.State {
     this.banner.text = `Dead puppies so far: ${ this.gameState.deadPuppies }`;
     this.comment.text = 'Click to keep the lighthouse alive!';
     this.lighthouse.frame = 0;
-    if (this.gameState.lightHouseFuel > 18) {
+    if (this.gameState.lightHouseFuel > 15) {
       this.comment.text = `There are currently ${ this.gameState.players } lighthouse keepers.`;
     }
     if (this.gameState.lightHouseFuel === 0) {
@@ -117,6 +119,7 @@ export class GameState extends Phaser.State {
         const spawned = this.game.time.now - (serverTime - serverSpawned);
         if (!this.doggies[id]) {
           const doggo = new Doggo({
+            id,
             game: this.game,
             asset: 'doggo',
             variant,
@@ -174,8 +177,13 @@ export class GameState extends Phaser.State {
   }
 
   private click() {
-    let { lightHouseFuel } = this.gameState;
     this.socket.emit('charge');
+    this.charge();
+  }
+
+  private charge() {
+    console.log('CHARGE');
+    let { lightHouseFuel } = this.gameState;
     lightHouseFuel += 5;
     if (lightHouseFuel > 20) {
       lightHouseFuel = 20;

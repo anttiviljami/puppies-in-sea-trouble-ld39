@@ -16,6 +16,7 @@ let sailingPuppies;
 let lastPuppy;
 
 export async function reset() {
+  logger.info('Game has been reset');
   // initial values
   serverStarted = Date.now();
   lightHouseFuel = 20;
@@ -24,43 +25,52 @@ export async function reset() {
   deadPuppies = 0;
   sailingPuppies = [];
   lastPuppy = 0;
+}
 
+async function saveGameState() {
   // save to database
-  return knex('game').insert([
-    { key: 'serverStarted', value: serverStarted },
-    { key: 'lightHouseFuel', value: lightHouseFuel },
-    { key: 'fuelUsed', value: fuelUsed },
-    { key: 'savedPuppies', value: savedPuppies },
-    { key: 'sailingPuppies', value: JSON.stringify(sailingPuppies) },
-    { key: 'deadPuppies', value: deadPuppies },
-  ]);
+  return knex('config')
+    .insert({
+      key: 'state',
+      value: {
+        serverStarted,
+        lightHouseFuel,
+        fuelUsed,
+        savedPuppies,
+        deadPuppies,
+        sailingPuppies,
+        lastPuppy,
+      },
+    }).catch(() => knex('config').where({key: 'state'})
+    .update('value', {
+      serverStarted,
+      lightHouseFuel,
+      fuelUsed,
+      savedPuppies,
+      deadPuppies,
+      sailingPuppies,
+      lastPuppy,
+    }));
 }
 
 async function init() {
-  const game = await knex('game').select('*');
-  const config = {
-    serverStarted,
-    lightHouseFuel,
-    fuelUsed,
-    savedPuppies,
-    deadPuppies,
-    sailingPuppies,
-    lastPuppy,
-  };
-  _.map(game, (row) => {
-    const { key, value } = row;
-    config[key] = value;
-  });
+  const res = await knex('config').select('value').where({key: 'state'});
+  const config = res[0].value;
 
-  logger.info('server started', config);
+  if (config.serverStarted) {
+    logger.info('server started', config);
 
-  serverStarted = config.serverStarted;
-  lightHouseFuel = config.lightHouseFuel;
-  fuelUsed = config.fuelUsed;
-  savedPuppies = config.savedPuppies;
-  deadPuppies = config.deadPuppies;
-  sailingPuppies = JSON.parse(config.sailingPuppies);
-  lastPuppy = config.lastPuppy;
+    serverStarted = config.serverStarted;
+    lightHouseFuel = config.lightHouseFuel;
+    fuelUsed = config.fuelUsed;
+    savedPuppies = config.savedPuppies;
+    deadPuppies = config.deadPuppies;
+    sailingPuppies = config.sailingPuppies;
+    lastPuppy = config.lastPuppy;
+  } else {
+    await reset();
+    await saveGameState();
+  }
 
   return true;
 }
@@ -101,6 +111,7 @@ async function tick() {
   io.emit('game event', JSON.stringify({ state }));
 
   await reduceFuel();
+  await saveGameState();
   return true;
 }
 
