@@ -35,6 +35,8 @@ export class SplashState extends Phaser.State {
     this.clickText.fill = '#fff';
     this.clickText.alpha = 0;
     this.clickText.anchor.setTo(0.5);
+
+    this.game.stage.disableVisibilityChange = true;
   }
 
   public render() {

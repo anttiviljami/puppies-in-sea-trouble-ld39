@@ -18,17 +18,7 @@ body {
 }
 `;
 
-const script = `
-  (function () {
-    var socket = io({transports: ['websocket']});
-    window.charge = function() {
-      socket.emit('charge');
-    }
-    socket.on('game event', function(msg) {
-      console.log(msg);
-    });
-  })();
-`;
+const script = ``;
 
 const base = (
   <html>
