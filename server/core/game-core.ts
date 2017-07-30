@@ -88,7 +88,8 @@ async function reduceFuel() {
 }
 
 async function tick() {
-  if (--lastPuppy < 0 && Math.floor(Math.random() * 5) === 0) {
+  const rarity = io.engine.clientsCount > 0 ? 5 : 50;
+  if (--lastPuppy < 0 && Math.floor(Math.random() * rarity) === 0) {
     // randomly add a new puppy
     await newPuppy();
     // don't spawn a puppy for 2 ticks
