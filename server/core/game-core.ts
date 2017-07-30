@@ -55,9 +55,8 @@ async function saveGameState() {
 
 async function init() {
   const res = await knex('config').select('value').where({key: 'state'});
-  const config = res[0].value;
-
-  if (config.serverStarted) {
+  if (res[0] && res[0].value) {
+    const config = res[0].value;
     logger.info('server started', config);
 
     serverStarted = config.serverStarted;
