@@ -3,11 +3,10 @@ import * as io from 'socket.io-client';
 import * as Phaser from 'phaser-ce';
 import * as fetch from 'isomorphic-fetch';
 import { Doggo } from '../sprites/doggo';
-import { setResponsiveWidth } from '../util/transform';
 
 export class GameState extends Phaser.State {
   public music: Phaser.Sound;
-  private lighthouse: Phaser.Button;
+  private lighthouse: Phaser.Sprite;
 
   private banner: Phaser.Text;
   private comment: Phaser.Text;
@@ -47,13 +46,11 @@ export class GameState extends Phaser.State {
     this.music = this.game.add.audio('yar', 1, true);
     this.music.play();
 
-    this.lighthouse = this.game.add.button(0, this.game.height, 'lighthouse', this.click.bind(this));
+    this.lighthouse = this.game.add.sprite(0, this.game.height, 'lighthouse');
     this.lighthouse.anchor.setTo(0, 1);
     this.lighthouse.z = 50;
 
     this.game.input.onDown.add(this.click, this);
-
-    setResponsiveWidth(this.lighthouse, 35, this.game.world);
 
     this.shadowTexture = this.game.add.bitmapData(this.game.width, this.game.height);
 
@@ -62,14 +59,14 @@ export class GameState extends Phaser.State {
     this.lightSprite.blendMode = PIXI.blendModes.MULTIPLY;
     this.lightSprite.z = 100;
 
-    this.banner = this.add.text(this.game.world.centerX, 0, `Dead puppies so far: 0`, {});
+    this.banner = this.add.text(this.game.world.centerX, 0, '', {});
     this.banner.font = 'Indie Flower';
     this.banner.fontSize = 35;
     this.banner.fill = '#fff';
     this.banner.anchor.setTo(0.5, 0);
     this.banner.z = 200;
 
-    this.comment = this.add.text(this.game.world.centerX, this.game.height, 'Keep the lighthouse alive!', {});
+    this.comment = this.add.text(this.game.world.centerX, this.game.height, '', {});
     this.comment.font = 'Indie Flower';
     this.comment.fontSize = 24;
     this.comment.fill = '#fff';
@@ -90,8 +87,14 @@ export class GameState extends Phaser.State {
   public render() {
     this.updateShadowTexture.bind(this)();
     this.banner.text = `Dead puppies so far: ${ this.gameState.deadPuppies }`;
-    if (this.gameState.lightHouseFuel > 15) {
+    this.comment.text = 'Click to keep the lighthouse alive!';
+    this.lighthouse.frame = 0;
+    if (this.gameState.lightHouseFuel > 18) {
       this.comment.text = `There are currently ${ this.gameState.players } lighthouse keepers.`;
+    }
+    if (this.gameState.lightHouseFuel === 0) {
+      this.lighthouse.frame = 1;
+      this.comment.text = 'The lighthouse is out. Puppies will drown!';
     }
   }
 
@@ -142,10 +145,9 @@ export class GameState extends Phaser.State {
     this.shadowTexture.context.fillRect(0, 0, this.game.width, this.game.height);
 
     const radiusBase = this.game.height > this.game.width ? this.game.height : this.game.width;
-    const radius = radiusBase * 1.1 + Math.random() * 100;
-    const intensity = (this.gameState.lightHouseFuel + 2 ) / 20;
+    const intensity = .25 + ((this.gameState.lightHouseFuel + 2 ) / 20) * .75;
     const easedIntensity = Math.pow(intensity, 2);
-    const radius = (2 * radiusBase + Math.random() * 100) * easedIntensity;
+    const radius = (2 * radiusBase + Math.random() * 100) * intensity;
 
     const lightX = this.lighthouse.centerX;
     const lightY = this.lighthouse.top;
@@ -160,7 +162,7 @@ export class GameState extends Phaser.State {
         lightY,
         radius,
       );
-    gradient.addColorStop(0, `rgba(255, 255, 255, ${intensity})`);
+    gradient.addColorStop(0, `rgba(255, 255, 255, ${(intensity)})`);
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
     this.shadowTexture.context.beginPath();
     this.shadowTexture.context.fillStyle = gradient;

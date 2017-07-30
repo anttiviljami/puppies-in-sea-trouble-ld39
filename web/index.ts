@@ -8,7 +8,7 @@ class Game extends Phaser.Game {
   public music = Phaser.Sound;
 
   constructor() {
-    super('100%', '100%', Phaser.AUTO, 'content', null);
+    super(1000, 1000, Phaser.AUTO, 'content', null);
 
     this.state.add('Boot', BootState, false);
     this.state.add('Splash', SplashState, false);
@@ -19,3 +19,5 @@ class Game extends Phaser.Game {
 }
 
 export const game = new Game();
+
+window.onresize = () => game.scale.refresh();

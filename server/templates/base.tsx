@@ -13,6 +13,7 @@ body {
   text-align: center;
 }
 #content {
+  width: 100%;
   height: 100%;
   display: inline-block;
 }
@@ -23,7 +24,7 @@ const script = ``;
 const base = (
   <html>
     <head>
-      <title>Trickle</title>
+      <title>Puppies</title>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
       <meta name="HandheldFriendly" content="True" />
       <meta name="MobileOptimized" content="320" />

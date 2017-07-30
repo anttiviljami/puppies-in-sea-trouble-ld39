@@ -6,7 +6,8 @@ export class BootState extends Phaser.State {
   private fontsReady: boolean;
 
   public init() {
-    this.stage.backgroundColor = '#02344d';
+    this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+    this.stage.backgroundColor = '#02426E';
     this.fontsReady = false;
     this.fontsLoaded = this.fontsLoaded.bind(this);
   }
