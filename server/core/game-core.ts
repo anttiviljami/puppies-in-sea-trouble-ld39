@@ -4,6 +4,8 @@ import * as eth from './eth-core';
 import * as crypto from 'crypto';
 import * as logger from 'winston';
 
+import config from '../config';
+
 import * as knexInstance from '../util/knex';
 const knex = knexInstance.connect();
 
@@ -16,7 +18,6 @@ let sailingPuppies;
 let lastPuppy;
 
 export async function reset() {
-  logger.info('Game has been reset');
   // initial values
   serverStarted = Date.now();
   lightHouseFuel = 20;
@@ -25,10 +26,13 @@ export async function reset() {
   deadPuppies = 0;
   sailingPuppies = [];
   lastPuppy = 0;
+  await saveGameState();
+  logger.info('Game has been reset');
 }
 
 async function saveGameState() {
   // save to database
+  logger.silly('Saving game state...');
   return knex('config')
     .insert({
       key: 'state',
@@ -55,20 +59,19 @@ async function saveGameState() {
 
 async function init() {
   const res = await knex('config').select('value').where({key: 'state'});
-  if (res[0] && res[0].value) {
-    const config = res[0].value;
+  if (config.RESET_ON_START || !res[0] || !res[0].value) {
+    await reset();
+  } else {
+    const state = res[0].value;
     logger.info('server started', config);
 
-    serverStarted = config.serverStarted;
-    lightHouseFuel = config.lightHouseFuel;
-    fuelUsed = config.fuelUsed;
-    savedPuppies = config.savedPuppies;
-    deadPuppies = config.deadPuppies;
-    sailingPuppies = config.sailingPuppies;
-    lastPuppy = config.lastPuppy;
-  } else {
-    await reset();
-    await saveGameState();
+    serverStarted = state.serverStarted;
+    lightHouseFuel = state.lightHouseFuel;
+    fuelUsed = state.fuelUsed;
+    savedPuppies = state.savedPuppies;
+    deadPuppies = state.deadPuppies;
+    sailingPuppies = state.sailingPuppies;
+    lastPuppy = state.lastPuppy;
   }
 
   return true;
