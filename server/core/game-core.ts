@@ -1,6 +1,11 @@
+import * as _ from 'lodash';
 import { io } from '../routes';
 import * as eth from './eth-core';
 import * as crypto from 'crypto';
+import * as logger from 'winston';
+
+import * as knexInstance from '../util/knex';
+const knex = knexInstance.connect();
 
 let serverStarted;
 let lightHouseFuel;
@@ -10,7 +15,8 @@ let savedPuppies;
 let sailingPuppies;
 let lastPuppy;
 
-export async function init() {
+export async function reset() {
+  // initial values
   serverStarted = Date.now();
   lightHouseFuel = 20;
   fuelUsed = 0;
@@ -18,6 +24,44 @@ export async function init() {
   deadPuppies = 0;
   sailingPuppies = [];
   lastPuppy = 0;
+
+  // save to database
+  return knex('game').insert([
+    { key: 'serverStarted', value: serverStarted },
+    { key: 'lightHouseFuel', value: lightHouseFuel },
+    { key: 'fuelUsed', value: fuelUsed },
+    { key: 'savedPuppies', value: savedPuppies },
+    { key: 'sailingPuppies', value: JSON.stringify(sailingPuppies) },
+    { key: 'deadPuppies', value: deadPuppies },
+  ]);
+}
+
+async function init() {
+  const game = await knex('game').select('*');
+  const config = {
+    serverStarted,
+    lightHouseFuel,
+    fuelUsed,
+    savedPuppies,
+    deadPuppies,
+    sailingPuppies,
+    lastPuppy,
+  };
+  _.map(game, (row) => {
+    const { key, value } = row;
+    config[key] = value;
+  });
+
+  logger.info('server started', config);
+
+  serverStarted = config.serverStarted;
+  lightHouseFuel = config.lightHouseFuel;
+  fuelUsed = config.fuelUsed;
+  savedPuppies = config.savedPuppies;
+  deadPuppies = config.deadPuppies;
+  sailingPuppies = JSON.parse(config.sailingPuppies);
+  lastPuppy = config.lastPuppy;
+
   return true;
 }
 

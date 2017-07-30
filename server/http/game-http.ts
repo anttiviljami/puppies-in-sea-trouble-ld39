@@ -13,7 +13,7 @@ export async function getState(req, res) {
 }
 
 export async function resetGame(req, res) {
-  await game.init();
+  await game.reset();
   logger.info('GAME RESET');
   return res.json({ success: 1 });
 }
