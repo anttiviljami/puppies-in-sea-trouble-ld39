@@ -38,8 +38,8 @@ export class SplashState extends Phaser.State {
 
     this.clickText = this.add.text(
       this.game.world.centerX, (this.game.world.centerY + pup.height / 2), 'Click to start saving puppies', {});
-    this.clickText.font = 'Indie Flower';
-    this.clickText.fontSize = 40;
+    this.clickText.font = 'Artifika';
+    this.clickText.fontSize = 30;
     this.clickText.fill = '#ccc';
     this.clickText.alpha = 0;
     this.clickText.anchor.setTo(0.5, 0);

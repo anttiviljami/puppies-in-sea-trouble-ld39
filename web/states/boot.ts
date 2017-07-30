@@ -15,7 +15,7 @@ export class BootState extends Phaser.State {
   public preload() {
     WebFont.load({
       google: {
-        families: ['Indie Flower'],
+        families: ['Artifika'],
       },
       active: this.fontsLoaded,
     });

@@ -66,17 +66,17 @@ export class GameState extends Phaser.State {
     this.lightSprite.z = 100;
 
     this.banner = this.add.text(this.game.world.centerX, 0, '', {});
-    this.banner.font = 'Indie Flower';
+    this.banner.font = 'Artifika';
     this.banner.fontSize = 45;
-    this.banner.fill = '#fff';
+    this.banner.fill = '#ccc';
     this.banner.anchor.setTo(0.5, 0);
     this.banner.z = 200;
     this.banner.scale.setTo(this.worldScale);
 
     this.comment = this.add.text(this.game.world.centerX, this.game.height, '', {});
-    this.comment.font = 'Indie Flower';
+    this.comment.font = 'Artifika';
     this.comment.fontSize = 32;
-    this.comment.fill = '#fff';
+    this.comment.fill = '#ccc';
     this.comment.anchor.setTo(0.5, 1);
     this.comment.z = 200;
     this.comment.scale.setTo(this.worldScale);
@@ -93,12 +93,14 @@ export class GameState extends Phaser.State {
   }
 
   public render() {
+    const { deadPuppies, savedPuppies, players } = this.gameState;
     this.updateShadowTexture.bind(this)();
-    this.banner.text = `Dead puppies so far: ${ this.gameState.deadPuppies }`;
+    this.banner.text = `Dead puppies: ${ deadPuppies }`;
     this.comment.text = 'Click to keep the lighthouse alive!';
     this.lighthouse.frame = 0;
     if (this.gameState.lightHouseFuel > 15) {
-      this.comment.text = `There are currently ${ this.gameState.players } lighthouse keepers.`;
+      const keeperPlural = players === 1 ? 'keeper' : 'keepers';
+      this.comment.text = `${savedPuppies} saved puppies, ${players} lighthouse ${keeperPlural}`;
     }
     if (this.gameState.lightHouseFuel === 0) {
       this.lighthouse.frame = 1;
