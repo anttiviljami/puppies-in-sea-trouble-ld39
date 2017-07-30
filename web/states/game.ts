@@ -89,6 +89,9 @@ export class GameState extends Phaser.State {
     this.comment.z = 200;
     this.comment.scale.setTo(this.worldScale);
 
+    const mute = this.game.input.keyboard.addKey(Phaser.Keyboard.M);
+    mute.onDown.add(this.muteMusic, this);
+
     this.gameState = this.getInitialState();
   }
 
@@ -111,11 +114,12 @@ export class GameState extends Phaser.State {
     this.lastLightHouseFuel = lightHouseFuel;
     this.updateShadowTexture.bind(this)();
     this.banner.text = `Dead puppies: ${ deadPuppies }`;
-    this.comment.text = 'Click to keep the lighthouse alive!';
+
+    const keeperPlural = players === 1 ? 'keeper' : 'keepers';
+    this.comment.text = `${savedPuppies} saved puppies, ${players} active lighthouse ${keeperPlural}`;
     this.lighthouse.frame = 0;
-    if (lightHouseFuel > 10) {
-      const keeperPlural = players === 1 ? 'keeper' : 'keepers';
-      this.comment.text = `${savedPuppies} saved puppies, ${players} active lighthouse ${keeperPlural}`;
+    if (lightHouseFuel > 7 && lightHouseFuel <= 10) {
+      this.comment.text = 'Click to keep the lighthouse alive!';
     }
     if (lightHouseFuel === 0) {
       this.lighthouse.frame = 1;
@@ -212,6 +216,10 @@ export class GameState extends Phaser.State {
   private click() {
     this.socket.emit('charge');
     this.charge();
+  }
+
+  private muteMusic() {
+    this.music.isPlaying ? this.music.stop() : this.music.play();
   }
 
   private charge() {
