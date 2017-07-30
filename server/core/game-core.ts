@@ -139,8 +139,6 @@ export function getServerTime() {
 
 export async function getState() {
   const serverTime = getServerTime();
-  const balance = await eth.getBalance({ cache: true });
-  const reserveFuel = balance.minus(fuelUsed).toString(10);
   const players = io.engine.clientsCount;
   const puppies = {
     sailingPuppies,
@@ -152,7 +150,6 @@ export async function getState() {
     players,
     serverTime,
     lightHouseFuel,
-    reserveFuel,
     puppies,
   };
 }

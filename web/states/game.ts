@@ -18,6 +18,7 @@ export class GameState extends Phaser.State {
   private gameState;
   private previousTickMs;
   private previousTickServerTime;
+  private worldScale;
 
   private players;
 
@@ -37,6 +38,8 @@ export class GameState extends Phaser.State {
   }
 
   public create() {
+    this.worldScale = this.game.world.width > 800 ? .75 : .5;
+
     this.socket = io({transports: ['websocket']});
     this.socket.on('game event', (e) => {
       const event = JSON.parse(e);
@@ -51,6 +54,7 @@ export class GameState extends Phaser.State {
     this.lighthouse = this.game.add.sprite(0, this.game.height, 'lighthouse');
     this.lighthouse.anchor.setTo(0, 1);
     this.lighthouse.z = 50;
+    this.lighthouse.scale.setTo(this.worldScale);
 
     this.game.input.onDown.add(this.click, this);
 
@@ -67,6 +71,7 @@ export class GameState extends Phaser.State {
     this.banner.fill = '#fff';
     this.banner.anchor.setTo(0.5, 0);
     this.banner.z = 200;
+    this.banner.scale.setTo(this.worldScale);
 
     this.comment = this.add.text(this.game.world.centerX, this.game.height, '', {});
     this.comment.font = 'Indie Flower';
@@ -74,6 +79,7 @@ export class GameState extends Phaser.State {
     this.comment.fill = '#fff';
     this.comment.anchor.setTo(0.5, 1);
     this.comment.z = 200;
+    this.comment.scale.setTo(this.worldScale);
 
     this.gameState = this.getInitialState();
   }
@@ -127,6 +133,7 @@ export class GameState extends Phaser.State {
             targetX: this.lighthouse.centerX,
             targetY: this.lighthouse.centerY,
           });
+          doggo.scale.setTo(this.worldScale);
           this.game.add.existing(doggo);
           this.game.world.bringToTop(this.lighthouse);
           this.game.world.bringToTop(this.lightSprite);

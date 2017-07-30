@@ -32,14 +32,14 @@ export class SplashState extends Phaser.State {
     pup.anchor.setTo(0.5);
     subtitle.anchor.setTo(0.5, 1);
 
-    title.scale.setTo(worldScale);
-    subtitle.scale.setTo(worldScale);
-    pup.scale.setTo(worldScale);
+    title.scale.setTo(worldScale * .75);
+    subtitle.scale.setTo(worldScale * .75);
+    pup.scale.setTo(worldScale * 1.25);
 
     this.clickText = this.add.text(
       this.game.world.centerX, (this.game.world.centerY + pup.height / 2), 'Click to start saving puppies', {});
     this.clickText.font = 'Indie Flower';
-    this.clickText.fontSize = 35;
+    this.clickText.fontSize = 40;
     this.clickText.fill = '#ccc';
     this.clickText.alpha = 0;
     this.clickText.anchor.setTo(0.5, 0);
