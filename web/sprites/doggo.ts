@@ -10,14 +10,20 @@ export class Doggo extends Phaser.Sprite {
   private targetX;
   private targetY;
 
-  constructor({ game, asset, variant, spawned, targetX, targetY, id }) {
+  private woof;
+  private death;
+
+  private callback;
+
+  constructor({ game, asset, variant, spawned, targetX, targetY, id, callback }) {
     const rng = seedrandom(id);
+
     // random starting point
     const corner = Math.floor(rng() * 2); // 0 = top 1 = right
     let startX;
     let startY;
     if (corner === 0) {
-      startX = game.width - (rng() * game.world.width / 2);
+      startX = game.width - (rng() * game.world.width / 4);
       startY = -100;
     }
     if (corner === 1) {
@@ -36,23 +42,27 @@ export class Doggo extends Phaser.Sprite {
     this.variant = variant;
 
     this.game = game;
+    this.callback = callback;
     this.anchor.setTo(0.5);
 
     this.animations.add('waggle0', [0, 1]);
     this.animations.add('waggle1', [2, 3]);
     this.animations.add('waggle2', [4, 5]);
     this.play('waggle' + this.variant, 6, true);
+
+    this.woof = this.game.add.audio('woof' + Math.floor(rng() * 2), .75);
+    this.death = this.game.add.audio('death' + Math.floor(rng() * 2));
   }
 
   public update() {
     this.rotation = Math.sin((this.game.time.now + this.spawned) * .002) * .25;
 
     const progress = 1 - ((this.spawned + 35000) - this.game.time.now) / 35000;
-    this.x = this.startX + (this.targetX - this.startX) * progress;
+    this.x = this.startX + (this.targetX - this.startX) * Math.pow(progress, 2);
     this.y = this.startY + (this.targetY - this.startY) * progress;
 
     if (progress > 1) {
-      this.destroy();
+      this.callback(this);
     }
   }
 }

@@ -38,6 +38,12 @@ export class BootState extends Phaser.State {
     this.load.image('subtitle', 'assets/images/in-sea-trouble-subtitle.png');
     this.load.image('puppers', 'assets/images/puppers.png');
     this.load.audio('yar', ['assets/audio/yar.mp3', 'assets/audio/yar.ogg']);
+    this.load.audio('death0', ['assets/audio/death0.mp3', 'assets/audio/death0.ogg']);
+    this.load.audio('death1', ['assets/audio/death1.mp3', 'assets/audio/death1.ogg']);
+    this.load.audio('woof0', ['assets/audio/woof0.mp3', 'assets/audio/woof0.ogg']);
+    this.load.audio('woof1', ['assets/audio/woof1.mp3', 'assets/audio/woof1.ogg']);
+    this.load.audio('warning', ['assets/audio/warning.mp3', 'assets/audio/warning.ogg']);
+    this.load.audio('powerup', ['assets/audio/powerup.mp3', 'assets/audio/powerup.ogg']);
   }
 
   public render() {

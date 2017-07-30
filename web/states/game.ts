@@ -6,6 +6,8 @@ import { Doggo } from '../sprites/doggo';
 
 export class GameState extends Phaser.State {
   public music: Phaser.Sound;
+  public gameState;
+
   private lighthouse: Phaser.Sprite;
 
   private banner: Phaser.Text;
@@ -15,12 +17,15 @@ export class GameState extends Phaser.State {
 
   private socket;
 
-  private gameState;
   private previousTickMs;
   private previousTickServerTime;
   private worldScale;
+  private lastLightHouseFuel;
 
   private players;
+
+  private powerup: Phaser.Sound;
+  private warning: Phaser.Sound;
 
   private doggies: object = {};
 
@@ -48,8 +53,11 @@ export class GameState extends Phaser.State {
 
     this.socket.on('charge', () => this.charge);
 
-    this.music = this.game.add.audio('yar', 1, true);
+    this.music = this.game.add.audio('yar', .66, true);
     this.music.play();
+
+    this.powerup = this.add.audio('powerup');
+    this.warning = this.add.audio('warning', .5);
 
     this.lighthouse = this.game.add.sprite(0, this.game.height, 'lighthouse');
     this.lighthouse.anchor.setTo(0, 1);
@@ -86,23 +94,30 @@ export class GameState extends Phaser.State {
 
   public getInitialState() {
     return {
-      lightHouseFuel: 20,
+      lightHouseFuel: 0,
       players: 0,
       doggies: {},
     };
   }
 
   public render() {
-    const { deadPuppies, savedPuppies, players } = this.gameState;
+    const { deadPuppies, savedPuppies, players, lightHouseFuel } = this.gameState;
+    if (this.lastLightHouseFuel < lightHouseFuel) {
+      this.powerup.play();
+    }
+    if (this.lastLightHouseFuel > 10 && lightHouseFuel <= 10) {
+      this.warning.play();
+    }
+    this.lastLightHouseFuel = lightHouseFuel;
     this.updateShadowTexture.bind(this)();
     this.banner.text = `Dead puppies: ${ deadPuppies }`;
     this.comment.text = 'Click to keep the lighthouse alive!';
     this.lighthouse.frame = 0;
-    if (this.gameState.lightHouseFuel > 15) {
+    if (lightHouseFuel > 10) {
       const keeperPlural = players === 1 ? 'keeper' : 'keepers';
       this.comment.text = `${savedPuppies} saved puppies, ${players} lighthouse ${keeperPlural}`;
     }
-    if (this.gameState.lightHouseFuel === 0) {
+    if (lightHouseFuel === 0) {
       this.lighthouse.frame = 1;
       this.comment.text = 'The lighthouse is out. Puppies will drown!';
     }
@@ -134,6 +149,15 @@ export class GameState extends Phaser.State {
             spawned,
             targetX: this.lighthouse.centerX,
             targetY: this.lighthouse.centerY,
+            callback: (doggie) => {
+              delete this.doggies[doggie.id];
+              if (this.gameState.lightHouseFuel > 0) {
+                doggie.woof.play();
+              } else {
+                doggie.death.play();
+              }
+              doggie.destroy();
+            },
           });
           doggo.scale.setTo(this.worldScale * .5);
           this.game.add.existing(doggo);
