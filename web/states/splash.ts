@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser-ce';
-import { setResponsiveWidth } from '../util/transform';
 
 export class SplashState extends Phaser.State {
   private clickText: Phaser.Text;
