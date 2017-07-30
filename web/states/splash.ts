@@ -9,16 +9,6 @@ export class SplashState extends Phaser.State {
   public preload() {
     // this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar');
     // this.loaderBar.anchor.setTo(0.5);
-
-    //
-    // load your assets
-    //
-    this.load.spritesheet('doggo', 'assets/images/doggo.png', 250, 175);
-    this.load.spritesheet('lighthouse', 'assets/images/lighthouse.png', 550, 726);
-    this.load.image('title', 'assets/images/puppies-title.png');
-    this.load.image('subtitle', 'assets/images/in-sea-trouble-subtitle.png');
-    this.load.image('puppers', 'assets/images/puppers.png');
-    this.load.audio('yar', ['assets/audio/yar.mp3', 'assets/audio/yar.ogg']);
   }
 
   public create() {
@@ -34,7 +24,7 @@ export class SplashState extends Phaser.State {
 
     title.scale.setTo(worldScale * .75);
     subtitle.scale.setTo(worldScale * .75);
-    pup.scale.setTo(worldScale * 1.25);
+    pup.scale.setTo(worldScale);
 
     this.clickText = this.add.text(
       this.game.world.centerX, (this.game.world.centerY + pup.height / 2), 'Click to start saving puppies', {});

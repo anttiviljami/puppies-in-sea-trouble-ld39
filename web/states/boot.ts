@@ -28,6 +28,16 @@ export class BootState extends Phaser.State {
       align: 'center',
     });
     text.anchor.setTo(0.5, 0.5);
+
+    //
+    // load your assets
+    //
+    this.load.spritesheet('doggo', 'assets/images/doggo.png', 250, 175);
+    this.load.spritesheet('lighthouse', 'assets/images/lighthouse.png', 550, 726);
+    this.load.image('title', 'assets/images/puppies-title.png');
+    this.load.image('subtitle', 'assets/images/in-sea-trouble-subtitle.png');
+    this.load.image('puppers', 'assets/images/puppers.png');
+    this.load.audio('yar', ['assets/audio/yar.mp3', 'assets/audio/yar.ogg']);
   }
 
   public render() {
