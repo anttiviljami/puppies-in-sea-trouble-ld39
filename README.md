@@ -1,13 +1,13 @@
-# Trickle Game
+# Puppies in Sea Trouble
 
-The world runs a lighthouse, which runs on a mysterious substance called Ether.
+Puppies in Sea Trouble is an online game experiment, where players must man a lighthouse together to save seafaring puppies from peril.
 
-Ships (with puppies in them) need to get ashore, but will sink in the deadly
-waters unless the lighthouse is lit at all times.
+- Run the game in your browser and keep clicking to keep the lighthouse alive.
+- Share the URL with friends to man the lighthouse when you're not there or play together to save some puppies!
 
-## Notes
+Game URL: [https://puppies-in-sea-trouble.herokuapp.com](https://puppies-in-sea-trouble.herokuapp.com/)
 
-- The lighthouse is kept alive by pushing a button, which expends Ether
-- Each button press charges up the lighthouse +2 seconds (drains 0.00005 ETH)
-- 20 seconds without pressing the button will result in the lighthouse going dark (puppies will die)
-- Day / Night cycle ?
+![screenshot0.png](https://static.jam.vg/raw/172/a/z/5770.png)
+
+## [Save the puppies!](https://puppies-in-sea-trouble.herokuapp.com/)
+
