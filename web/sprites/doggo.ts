@@ -45,7 +45,6 @@ export class Doggo extends Phaser.Sprite {
   }
 
   public update() {
-    this.scale.setTo(.5);
     this.rotation = Math.sin((this.game.time.now + this.spawned) * .002) * .25;
 
     const progress = 1 - ((this.spawned + 35000) - this.game.time.now) / 35000;

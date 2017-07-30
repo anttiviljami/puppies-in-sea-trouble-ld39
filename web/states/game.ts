@@ -67,7 +67,7 @@ export class GameState extends Phaser.State {
 
     this.banner = this.add.text(this.game.world.centerX, 0, '', {});
     this.banner.font = 'Indie Flower';
-    this.banner.fontSize = 35;
+    this.banner.fontSize = 45;
     this.banner.fill = '#fff';
     this.banner.anchor.setTo(0.5, 0);
     this.banner.z = 200;
@@ -75,7 +75,7 @@ export class GameState extends Phaser.State {
 
     this.comment = this.add.text(this.game.world.centerX, this.game.height, '', {});
     this.comment.font = 'Indie Flower';
-    this.comment.fontSize = 24;
+    this.comment.fontSize = 32;
     this.comment.fill = '#fff';
     this.comment.anchor.setTo(0.5, 1);
     this.comment.z = 200;
@@ -133,7 +133,7 @@ export class GameState extends Phaser.State {
             targetX: this.lighthouse.centerX,
             targetY: this.lighthouse.centerY,
           });
-          doggo.scale.setTo(this.worldScale);
+          doggo.scale.setTo(this.worldScale * .5);
           this.game.add.existing(doggo);
           this.game.world.bringToTop(this.lighthouse);
           this.game.world.bringToTop(this.lightSprite);
