@@ -46,6 +46,7 @@ export class SplashState extends Phaser.State {
     this.clickText.scale.setTo(worldScale);
 
     this.game.stage.disableVisibilityChange = true;
+    this.game.input.onDown.add(this.start, this);
   }
 
   public render() {
@@ -53,9 +54,6 @@ export class SplashState extends Phaser.State {
       this.clickText.alpha += .01;
     } else {
       this.clickText.alpha = 1;
-    }
-    if (this.game.input.activePointer.leftButton.justReleased()) {
-      this.start();
     }
   }
 
