@@ -33,12 +33,13 @@
     "winston": "^2.3.1"
   },
   "scripts": {
-    "start": "knex migrate:latest && node dist/src/index.js",
+    "start": "knex migrate:latest && node dist/server/index.js",
     "dev": "npm run watch-build",
     "build": "concurrently 'tsc --p server/tsconfig.json' 'webpack web/'",
     "watch-build": "concurrently 'tsc -w --p server/tsconfig.json' 'webpack --watch web/' 'nodemon -L --watch dist/server/ dist/server/index.js'",
     "shell": "docker-compose run shell",
-    "lint": "concurrently 'tslint --format prose -c server/tslint.json --exclude ''**/node_modules/**'' --project server' 'tslint --format prose -c web/tslint.json --exclude ''**/node_modules/**'' --project web'"
+    "lint": "concurrently 'tslint --format prose -c server/tslint.json --exclude ''**/node_modules/**'' --project server' 'tslint --format prose -c web/tslint.json --exclude ''**/node_modules/**'' --project web'",
+    "postinstall": "npm run build"
   },
   "devDependencies": {
     "david": "^11.0.0",
