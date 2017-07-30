@@ -7,7 +7,7 @@ export class BootState extends Phaser.State {
 
   public init() {
     this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-    this.stage.backgroundColor = '#02426E';
+    this.stage.backgroundColor = '#000';
     this.fontsReady = false;
     this.fontsLoaded = this.fontsLoaded.bind(this);
   }
@@ -15,7 +15,7 @@ export class BootState extends Phaser.State {
   public preload() {
     WebFont.load({
       google: {
-        families: ['Artifika'],
+        families: ['Acme'],
       },
       active: this.fontsLoaded,
     });
@@ -24,7 +24,7 @@ export class BootState extends Phaser.State {
 
     const text = this.add.text(centerX, centerY, 'Loading...', {
       font: '18px sans-serif',
-      fill: '#fff',
+      fill: '#ccc',
       align: 'center',
     });
     text.anchor.setTo(0.5, 0.5);

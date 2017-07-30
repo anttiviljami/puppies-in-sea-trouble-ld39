@@ -66,7 +66,7 @@ export class GameState extends Phaser.State {
     this.lightSprite.z = 100;
 
     this.banner = this.add.text(this.game.world.centerX, 0, '', {});
-    this.banner.font = 'Artifika';
+    this.banner.font = 'Acme';
     this.banner.fontSize = 45;
     this.banner.fill = '#ccc';
     this.banner.anchor.setTo(0.5, 0);
@@ -74,7 +74,7 @@ export class GameState extends Phaser.State {
     this.banner.scale.setTo(this.worldScale);
 
     this.comment = this.add.text(this.game.world.centerX, this.game.height, '', {});
-    this.comment.font = 'Artifika';
+    this.comment.font = 'Acme';
     this.comment.fontSize = 32;
     this.comment.fill = '#ccc';
     this.comment.anchor.setTo(0.5, 1);

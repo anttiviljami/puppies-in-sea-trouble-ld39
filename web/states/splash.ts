@@ -9,6 +9,7 @@ export class SplashState extends Phaser.State {
   public preload() {
     // this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar');
     // this.loaderBar.anchor.setTo(0.5);
+    this.stage.backgroundColor = '#02426E';
   }
 
   public create() {
@@ -28,7 +29,7 @@ export class SplashState extends Phaser.State {
 
     this.clickText = this.add.text(
       this.game.world.centerX, (this.game.world.centerY + pup.height / 2), 'Click to start saving puppies', {});
-    this.clickText.font = 'Artifika';
+    this.clickText.font = 'Acme';
     this.clickText.fontSize = 30;
     this.clickText.fill = '#ccc';
     this.clickText.alpha = 0;
